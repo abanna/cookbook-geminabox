@@ -6,6 +6,9 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
 version          "0.1.2"
 
 supports 'ubuntu'
+supports 'centos'
+
+depends 'rvm'
 depends 'unicorn'
 depends 'bluepill'
 depends 'nginx'

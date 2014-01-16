@@ -1,4 +1,14 @@
+
 include_recipe 'nginx'
+
+if node[:platform] == 'centos'
+  default_conf = "#{node[:nginx][:dir]}/conf.d/default.conf"
+  if(File.exists?(default_conf))
+    file default_conf do
+      action :delete
+    end    
+  end
+end
 
 %w(000-default default).each do |site|
   nginx_site site do

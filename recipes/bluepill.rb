@@ -1,7 +1,15 @@
 include_recipe "bluepill"
 
-gem_package('red_unicorn') do
-  action :install
+if node[:geminabox][:rvm]
+  rvm_gem 'red_unicorn' do
+    ruby_string node[:geminabox][:rvm][:default_ruby]
+    user        node[:geminabox][:rvm][:user] 
+    action      :install
+  end
+else
+  gem_package('red_unicorn') do
+    action :install  
+  end
 end
 
 template '/etc/init/geminabox.conf' do

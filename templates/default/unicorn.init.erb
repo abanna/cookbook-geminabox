@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# unicorn - init.d script for single or multiple unicorn installations. Expects at least one .conf
+# chkconfig:   - 85 15
+# description:  Unicorn is an HTTP server for Rack applications designed to only serve fast clients on low-latency,
+#               high-bandwidth connections and take advantage of features in Unix/Unix-like kernels
+# processname: unicorn
+
+# Set the environment, as required by Monit
+export PATH="/home/vagrant/.rvm/gems/ruby-1.9.3-p484@lx-gem/bin:/home/vagrant/.rvm/gems/ruby-1.9.3-p484@global/bin:/home/vagrant/.rvm/rubies/ruby-1.9.3-p484/bin:/home/vagrant/.rvm/bin:/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/vagrant/bin"
+export GEM_PATH="/home/vagrant/.rvm/gems/ruby-1.9.3-p484@lx-gem:/home/vagrant/.rvm/gems/ruby-1.9.3-p484@global"
+export GEM_HOME="/home/vagrant/.rvm/gems/ruby-1.9.3-p484@lx-gem"
+
+start () {
+  cd /var/www/geminabox
+  unicorn -c /etc/geminabox/geminabox.unicorn.app -D
+}
+
+stop () {
+  kill -s QUIT $(cat /var/run/unicorn.pid)
+}
+
+case $1 in
+  start)
+    start
+  ;;
+  stop)
+    stop
+  ;;
+  *)
+  echo $"Usage: $0 {start|stop}"
+  exit 1
+  ;;
+esac
+
+exit 0
